@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>  
+<html>  
+  
+<head>  
+    <title>  
+        Machine Learning Flashcards
+    </title>      
+</head>  
+
+<h1 style = "color:green;" >  
+    Machine Learning Flashcards by Chris Albon 
+</h1>  
+
+<input type="file" id="file-selector" multiple>
+<script>
+  const fileSelector = document.getElementById('file-selector');
+  fileSelector.addEventListener('change', (event) => {
+    window.fileList = event.target.files;
+    console.log(fileList['0']);
+  });
+</script>
+  
+<body id = "picture" style = "text-align:center;">  
+
+
+    <p id = "GFG_UP" style =  
+            "font-size: 15px; font-weight: bold;">  
+    </p>  
+      
+    <button onclick = "GFG_Fun()">  
+        click here  
+    </button>  
+      
+    <p id = "GFG_DOWN" style =  
+            "color:green; font-size: 20px; font-weight: bold;">  
+    </p>  
+ 
+    <script> 
+        var up = document.getElementById('GFG_UP');  
+        var down = document.getElementById('GFG_DOWN');  
+
+        function GFG_Fun() { 
+            var img = new Image();
+            let randomVariable = Math.floor(Math.random() * 299);
+            let image_path = window.fileList[randomVariable].name;
+            let path =  'imgs/'+image_path;
+            console.log(path)
+            document.getElementById("picture").src = path; 
+        }  
+    </script>  
+</body>  
+  
+</html> 
