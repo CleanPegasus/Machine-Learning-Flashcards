@@ -5,9 +5,11 @@
     <title>  
         Machine Learning Flashcards
     </title>
-    
+
     <style>
         h1 {text-align: center;}
+        h2 {text-align: center;}
+        h3 {text-align: center;}
         p {text-align: center;}
         div {text-align: center;}
     </style>
@@ -17,29 +19,91 @@
     Machine Learning Flashcards by Chris Albon 
 </h1>  
 
-
 <p><input type="file"  accept="image/*" name="image" id="file" multiple onchange="loadFile(event)" style="display: none;"></p>
-<p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+<p><label for="file" style="cursor: pointer;">Upload Flashcards</label></p>
 <p><img id="output" width="800" /></p>
 
-<button onclick = "displayImage()">  
-    Show Image  
-</button> 
+<h3 id = "category"></h3>
+<h2 id = "flashName"></h2>
+
+<p><button onclick = "knownFlash()">  
+    I know this  
+</button> </p>
+
+<p><button onclick = "unkownFlash()">  
+    I don't know this  
+</button> </p>
 
 <script>
 var loadFile = function(event) {
     window.images = event.target.files;
+    window.known = [];
+    window.unknown = [];
     var image = document.getElementById('output');
-    let randomVariable = Math.floor(Math.random() * Object.keys(event.target.files).length);
-	image.src = URL.createObjectURL(event.target.files[randomVariable]);
+    let randomVariable = Math.floor(Math.random() * Object.keys(window.images).length);
+    window.image_name = window.images[randomVariable].name;
+    let name = window.images[randomVariable].name;
+    name = name.substring(0, name.length - 10).replace(/_/g, ' ');
+    document.getElementById("flashName").innerHTML = name;
+    console.log(name);
+	image.src = URL.createObjectURL(window.images[randomVariable]);
 };
 </script>
 
 <script>
     function displayImage() {
-        console.log("Display Image");
         var image = document.getElementById('output');
         let randomVariable = Math.floor(Math.random() * Object.keys(window.images).length);
-	    image.src = URL.createObjectURL(window.images[randomVariable]);
+        window.image_name = window.images[randomVariable].name;
+        let name = window.images[randomVariable].name;
+        name = name.substring(0, name.length - 10).replace(/_/g, ' ');
+        document.getElementById("flashName").innerHTML = name;
+        console.log(name);
+        image.src = URL.createObjectURL(window.images[randomVariable]);
+        
+    }
+
+    function knownFlash() {
+        window.known.push(window.image_name);
+        console.log(window.known)
+        var image = document.getElementById('output');
+        let randomVariable = Math.floor(Math.random() * Object.keys(window.images).length);
+        window.image_name = window.images[randomVariable].name;
+        console.log(window.known.includes(window.image_name))
+        if (window.known.includes(window.image_name)) {
+            document.getElementById("category").innerHTML = "Revise";
+        } else if(window.unknown.includes(window.image_name)) {
+            document.getElementById("category").innerHTML = "Learning";
+        } else {
+            document.getElementById("category").innerHTML = "New";
+        }
+        let name = window.images[randomVariable].name;
+        name = name.substring(0, name.length - 10).replace(/_/g, ' ');
+        document.getElementById("flashName").innerHTML = name;
+        console.log(name);
+        image.src = URL.createObjectURL(window.images[randomVariable]);
+
+    }
+
+    function unkownFlash() {
+        window.unknown.push(window.image_name);
+        var image = document.getElementById('output');
+        let randomVariable = Math.floor(Math.random() * Object.keys(window.images).length);
+        window.image_name = window.images[randomVariable];
+        if (window.known.includes(window.image_name)) {
+            document.getElementById("category").innerHTML = "Revise";
+        } else if(window.unknown.includes(window.image_name)) {
+            document.getElementById("category").innerHTML = "Learning";
+        } else {
+            document.getElementById("category").innerHTML = "New";
+        }
+        let name = window.images[randomVariable].name;
+        name = name.substring(0, name.length - 10).replace(/_/g, ' ');
+        document.getElementById("flashName").innerHTML = name;
+        console.log(name);
+        image.src = URL.createObjectURL(window.images[randomVariable]);
     }
 </script>
+
+
+
