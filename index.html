@@ -14,36 +14,46 @@
         div {text-align: center;}
 
         .scene {
-            width: 800px;
-            height: 560px;
-            perspective: 600px;
-
+        width: 700px;
+        height: 560px;
+        margin: 40px 0;
+        perspective: 600px;
         }
+
         .card {
-            width: 100%;
-            height: 100%;
-            transition: transform 1s;
-            transform-style: preserve-3d;
-        }
-
-        .card__face {
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            backface-visibility: hidden;
-        }
-
-        .card__face--front {
-            background: red;
-        }
-
-        .card__face--back {
-            transform: rotateY( 180deg );
+        position: relative;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        transform-origin: center right;
+        transition: transform 1s;
         }
 
         .card.is-flipped {
-            transform: rotateY(180deg);
+        transform: translateX(-100%) rotateY(-180deg);
         }
+
+        .card__face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        line-height: 260px;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        font-size: 40px;
+        backface-visibility: hidden;
+        }
+
+        .card__face--front {
+        background: red;
+        }
+
+        .card__face--back {
+        transform: rotateY(180deg);
+        }
+
 
     </style>
 </head>  
@@ -66,9 +76,16 @@
 </div>
 
 <script>
+    window.cardPosition = 'not flipped';
     var card = document.querySelector('.card');
     card.addEventListener( 'click', function() {
     card.classList.toggle('is-flipped');
+    if(window.cardPosition == 'not flipped') {
+        window.cardPosition = 'flipped';
+    } else {
+        window.cardPosition = 'not flipped';
+    }
+    
     });
 </script>
 
@@ -117,6 +134,10 @@ var loadFile = function(event) {
     }
 
     function knownFlash() {
+        if(window.cardPosition == 'flipped') {
+            card.classList.toggle('is-flipped');
+            window.cardPosition = 'not flipped';
+        }
         window.known.push(window.image_name);
         console.log(window.known)
         var image = document.getElementById('output');
@@ -141,6 +162,10 @@ var loadFile = function(event) {
     }
 
     function unkownFlash() {
+        if(window.cardPosition == 'flipped') {
+            card.classList.toggle('is-flipped');
+            window.cardPosition = 'not flipped';
+        }
         window.unknown.push(window.image_name);
         var image = document.getElementById('output');
         let randomVariable = Math.floor(Math.random() * Object.keys(window.images).length);
