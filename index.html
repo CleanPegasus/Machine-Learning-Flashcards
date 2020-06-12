@@ -12,6 +12,39 @@
         h3 {text-align: center;}
         p {text-align: center;}
         div {text-align: center;}
+
+        .scene {
+            width: 800px;
+            height: 560px;
+            perspective: 600px;
+
+        }
+        .card {
+            width: 100%;
+            height: 100%;
+            transition: transform 1s;
+            transform-style: preserve-3d;
+        }
+
+        .card__face {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            backface-visibility: hidden;
+        }
+
+        .card__face--front {
+            background: red;
+        }
+
+        .card__face--back {
+            transform: rotateY( 180deg );
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
     </style>
 </head>  
 
@@ -22,6 +55,22 @@
 <p><input type="file"  accept="image/*" name="image" id="file" multiple onchange="loadFile(event)" style="display: none;"></p>
 <p><label for="file" style="cursor: pointer;">Upload Flashcards</label></p>
 <p><img id="output" width="800" /></p>
+
+
+
+<div class="scene">
+    <div class="card">
+      <div class="card__face card__face--front" id = "card_front">front</div>
+      <div class="card__face card__face--back" id = "card_back"></div>
+    </div>
+</div>
+
+<script>
+    var card = document.querySelector('.card');
+    card.addEventListener( 'click', function() {
+    card.classList.toggle('is-flipped');
+    });
+</script>
 
 <h3 id = "category"></h3>
 <h2 id = "flashName"></h2>
@@ -34,6 +83,7 @@
     I don't know this  
 </button> </p>
 
+
 <script>
 var loadFile = function(event) {
     window.images = event.target.files;
@@ -44,9 +94,11 @@ var loadFile = function(event) {
     window.image_name = window.images[randomVariable].name;
     let name = window.images[randomVariable].name;
     name = name.substring(0, name.length - 10).replace(/_/g, ' ');
+    document.getElementById("card_front").innerHTML = name;
     document.getElementById("flashName").innerHTML = name;
     console.log(name);
 	image.src = URL.createObjectURL(window.images[randomVariable]);
+    document.getElementById("card_back").appendChild(image);
 };
 </script>
 
@@ -60,6 +112,7 @@ var loadFile = function(event) {
         document.getElementById("flashName").innerHTML = name;
         console.log(name);
         image.src = URL.createObjectURL(window.images[randomVariable]);
+        document.getElementById("card_back").appendChild(image);
         
     }
 
@@ -79,9 +132,11 @@ var loadFile = function(event) {
         }
         let name = window.images[randomVariable].name;
         name = name.substring(0, name.length - 10).replace(/_/g, ' ');
+        document.getElementById("card_front").innerHTML = name;
         document.getElementById("flashName").innerHTML = name;
         console.log(name);
         image.src = URL.createObjectURL(window.images[randomVariable]);
+        document.getElementById("card_back").appendChild(image);
 
     }
 
@@ -99,6 +154,7 @@ var loadFile = function(event) {
         }
         let name = window.images[randomVariable].name;
         name = name.substring(0, name.length - 10).replace(/_/g, ' ');
+        document.getElementById("card_front").innerHTML = name;
         document.getElementById("flashName").innerHTML = name;
         console.log(name);
         image.src = URL.createObjectURL(window.images[randomVariable]);
